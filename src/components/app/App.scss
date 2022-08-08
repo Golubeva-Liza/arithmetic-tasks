@@ -1,0 +1,45 @@
+@import '../../styles/variables.scss';
+
+.app{
+   &__header{
+      padding: 24px;
+      background-color: $color-light;
+   }
+   &__title{
+      font-weight: 600;
+      font-size: 32px;
+      line-height: 42px;
+      color: $color-black;
+      text-align: center;
+   }
+   &__container{
+      width: 808px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      padding-top: 72px;
+   }
+}
+
+.mode{
+   &__title{
+      font-weight: 600;
+      font-size: 28px;
+      line-height: 36px;
+      color: $color-main;
+      margin-bottom: 20px;
+   }
+}
+
+.main{
+
+}
+
+.change-task{
+   display: flex;
+   justify-content: flex-end;
+
+   &__btn{
+      margin-right: 24px;
+   }
+}

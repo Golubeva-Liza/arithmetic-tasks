@@ -1,0 +1,50 @@
+@import '../../styles/variables.scss';
+
+.radio{
+   position: relative;
+   display: block;
+   margin-bottom: 14px;
+
+   font-weight: 400;
+   font-size: 18px;
+   line-height: 23px;
+   color: $color-black;
+
+   padding-left: 36px;
+
+   &__check{
+      position: absolute;
+      left: 0;
+
+      width: 24px;
+      height: 24px;
+      border: 2px solid $color-light;
+      border-radius: 100%;
+   }
+   &__input{
+      position: absolute;
+      // -webkit-appearance: none; 
+      // -moz-appearance: none; 
+      // appearance: none; 
+      width: 1px !important;
+      height: 1px !important;
+      clip: rect(0 0 0 0);
+      overflow: hidden;
+
+      &:checked + .radio__check::before{
+         content: '';
+         position: absolute;
+         width: 14px;
+         height: 14px;
+         border-radius: 100%;
+         background-color: $color-main;
+         left: 50%;
+         top: 50%;
+         transform: translate(-50%, -50%);
+      }
+
+      &:focus + .radio__check{
+         border: 2px solid $color-main;
+      }
+   }
+}

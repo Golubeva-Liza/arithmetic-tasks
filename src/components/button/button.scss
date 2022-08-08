@@ -1,0 +1,31 @@
+@import '../../styles/variables.scss';
+
+.button{
+   width: 200px;
+   height: 37px; 
+   border-radius: 16px;
+   background: $color-main;
+
+   font-weight: 500;
+   font-size: 14px;
+   line-height: 18px;
+   color: #fff;
+
+   transition: all .3s;
+
+   &:hover{
+      background: $color-hover;
+   }
+
+   &_light{
+      background: #fff;
+      color: $color-main;
+      border: 2px solid $color-main;
+
+      &:hover{
+         background: #fff;
+         color: $color-hover;
+         border: 2px solid $color-hover;
+      }
+   }
+}

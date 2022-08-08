@@ -1,0 +1,88 @@
+@import './variables';
+@import './fonts';
+
+* {
+   font-family: 'IBMPlexSans', sans-serif;
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-size: 14px;
+}
+
+body {
+   margin: 0;
+   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+     sans-serif;
+   -webkit-font-smoothing: antialiased;
+   -moz-osx-font-smoothing: grayscale;
+}
+
+ul,
+li,
+dl {
+   list-style-type: none;
+   margin: 0;
+   padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+   margin: 0;
+}
+
+a {
+   text-decoration: none;
+   color: inherit;
+   display: inline-block;
+   &:hover {
+      text-decoration: none;
+      color: inherit;
+   }
+}
+
+p {
+   margin: 0;
+   padding: 0;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+   -webkit-appearance: none;
+   margin: 0; 
+}
+
+button{
+   border: none;
+   background-color: #fff;
+   cursor: pointer;
+}
+.visually-hidden{
+   position: absolute;
+   width: 1px !important;
+   height: 1px !important;
+   margin: -1px;
+   border: 0 !important;
+   padding: 0;
+   white-space: nowrap;
+   clip-path: inset(100%);
+   clip: rect(0 0 0 0);
+   overflow: hidden;
+   visibility: hidden;
+}
+.settings-main{
+   flex: 1;
+   img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+   }
+}
+
+//components
+// @import './tag';
+// @import './checkbox';
