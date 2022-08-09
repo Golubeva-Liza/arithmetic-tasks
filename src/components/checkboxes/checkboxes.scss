@@ -1,0 +1,41 @@
+@import '../../styles/variables.scss';
+
+.checkbox{
+   position: relative;
+   &__check{
+      position: absolute;
+      left: -11px;
+      width: 22px;
+      height: 22px;
+      border: 2px solid $color-light;
+   }
+
+   &__input{
+      position: absolute;
+      width: 1px !important;
+      height: 1px !important;
+      clip: rect(0 0 0 0);
+      overflow: hidden;
+
+      &:checked + .checkbox__check{
+         background-color: $color-light;
+      }
+      &:checked + .checkbox__check::before{
+         content: '1';
+         font-family: 'Inter';
+         font-weight: 500;
+         font-size: 14px;
+         line-height: 18px;
+         color: #248EA8;
+         
+         position: absolute;
+         left: 50%;
+         top: 50%;
+         transform: translate(-50%, -50%);
+      }
+
+      &:focus + .checkbox__check{
+         border: 2px solid $color-main;
+      }
+   }
+}

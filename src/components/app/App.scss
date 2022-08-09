@@ -32,14 +32,33 @@
 }
 
 .main{
-
-}
-
-.change-task{
-   display: flex;
-   justify-content: flex-end;
-
+   &__change-task, &__verify{
+      display: flex;
+      justify-content: flex-end;
+   }
    &__btn{
       margin-right: 24px;
    }
+   &__verify{
+      margin-top: 48px;
+   }
+   &__message{
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 26px;
+      display: flex;
+      align-items: center;
+      margin-right: 32px;
+      svg{
+         width: 32px;
+         height: 32px;
+      }
+      &_right{
+         color: $color-green;
+      }
+      &_wrong{
+         color: $color-red;
+      }
+   }
 }
+
