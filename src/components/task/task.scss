@@ -29,13 +29,19 @@
       grid-column: 1/8; 
       display: grid;
       grid-template-columns: repeat(7, 75px);
+
+      &_minus{
+         .checkbox__input:checked + .checkbox__check::before{
+            content: '-1';
+         }
+      }
    }
    &__numbers{
       display: grid;
       grid-template-columns: repeat(7, 75px);
       grid-template-rows: 36px 75px 75px;
 
-      input[type="text"]{
+      input[type="number"]{
          width: 75px;
          height: 75px;
          background: #FFFFFF;

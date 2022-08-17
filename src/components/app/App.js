@@ -1,8 +1,6 @@
 import './App.scss';
 import { useState } from 'react';
 import Radio from '../radio/Radio';
-import Button from '../button/Button';
-import {Right, Wrong, Arrow} from '../../resources';
 import Checkboxes from '../checkboxes/Checkboxes';
 import Task from '../task/Task';
 
@@ -24,24 +22,7 @@ function App() {
                <Radio name="mode" text="Вычитание" radio={modeRadio} setRadio={setModeRadio}/>
             </div>
 
-            <div className="main">
-               <div className="main__change-task">
-                  {/* <Button light className="main__btn">ввести числа вручную</Button> */}
-                  <Button light>сгенерировать пример</Button>
-               </div>
-
-               <Task/>
-
-               <div className="main__verify">
-                  <div className="main__message main__message_wrong">
-                     {/* <Right/>
-                     правильно */}
-                     <Wrong/>
-                     неправильно
-                  </div>
-                  <Button>проверка решения</Button>
-               </div>
-            </div>
+            <Task mode={modeRadio}/>
          </section>
       </div>
    );
