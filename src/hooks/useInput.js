@@ -4,7 +4,6 @@ export function useInput(initialValue) {
    const [value, setValue] = useState(initialValue);
 
    const onChange = (e, num) => {
-      // console.log(value);
       if (e.target.value > 9){
          return;
       }

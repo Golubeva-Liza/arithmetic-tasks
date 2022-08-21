@@ -63,6 +63,13 @@
             outline: none;
             border: 2px solid $color-main;
          }
+
+         
+      }
+      input[type="number"].wrong{
+         outline: 2px solid $color-red;
+         outline-offset: -1px;
+         z-index: 50;
       }
 
       label{

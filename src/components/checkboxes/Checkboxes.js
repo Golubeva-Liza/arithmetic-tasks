@@ -1,10 +1,9 @@
 import './checkboxes.scss';
 import { useState, useMemo } from 'react';
 
-const Checkboxes = ({className}) => {
+const Checkboxes = ({className, checked, setChecked}) => {
 
-   const [checked, setChecked] = useState([]);
-
+   // const [checked, setChecked] = useState([]);
    const checkValues = useMemo(() => ([7, 6, 5, 4, 3, 2]), []);
 
 
