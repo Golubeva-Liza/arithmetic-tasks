@@ -41,7 +41,7 @@
       grid-template-columns: repeat(7, 75px);
       grid-template-rows: 36px 75px 75px;
 
-      input[type="number"]{
+      input[type="text"]{
          width: 75px;
          height: 75px;
          background: #FFFFFF;
@@ -66,7 +66,7 @@
 
          
       }
-      input[type="number"].wrong{
+      input[type="text"].wrong{
          outline: 2px solid $color-red;
          outline-offset: -1px;
          z-index: 50;
