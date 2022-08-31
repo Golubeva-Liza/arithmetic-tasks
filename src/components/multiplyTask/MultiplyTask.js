@@ -17,7 +17,8 @@ const MultiplyTask = ({
       firstSum, 
       secondSum, 
       thirdSum,
-      hintInput, setHintInput
+      hintDigit,
+      clearSumFields, clearThirdFields
    }) => {
 
    
@@ -26,6 +27,14 @@ const MultiplyTask = ({
    useEffect(() => {
       //Math.min(+firstNum.value.join(''), +secondNum.value.join(''));
       const digitCount = String(+secondNum.value.join('')).length;
+      
+      if (digitCount == 1){
+         clearSumFields();
+      }
+
+      if (digitCount == 2){
+         clearThirdFields();
+      }
 
       if (digitCount !== strokeSumNum){
          setStrokeSumNum(digitCount);
@@ -36,12 +45,7 @@ const MultiplyTask = ({
       <div className="task task_multiply">
          <div className="task__top">
             <div className="task_multiply__top">
-               <input 
-                  className="input task_multiply__hint"
-                  type="text" 
-                  value={hintInput} 
-                  onChange={(e) => setHintInput(e.target.value)}
-               />
+               <div className="task_multiply__hint">{hintDigit}</div>
                <div className="task__sign">
                   {arithOperations["multiplication"].sign}
                </div>

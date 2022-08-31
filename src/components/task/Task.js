@@ -11,7 +11,7 @@ import Checkboxes from '../checkboxes/Checkboxes';
 import MultiplyTask from '../multiplyTask/MultiplyTask';
 
 
-const Task = ({mode}) => {
+const Task = ({mode, hintDigit, setHintDigit}) => {
    const firstNum = useInput(fieldsDefault),
          secondNum = useInput(fieldsDefault),
          resultNum = useInput(fieldsDefault);
@@ -20,7 +20,6 @@ const Task = ({mode}) => {
    const firstSum = useInput(fieldsDefault),
          secondSum = useInput(fieldsDefault),
          thirdSum = useInput(fieldsDefault);
-   const [hintInput, setHintInput] = useState('');//в режиме умножения
 
    //чекбоксы для отметок
    const [checked, setChecked] = useState([]);
@@ -67,6 +66,7 @@ const Task = ({mode}) => {
 
       } else if (mode == 'multiplication'){
          clearSumFields();
+         setHintDigit('');
          first = createRandomNum(2, 150);
          second = createRandomNum(2, 150);
       }
@@ -86,7 +86,7 @@ const Task = ({mode}) => {
       setMistake([]);
 
       if (mode == 'multiplication'){
-         setHintInput('')
+         setHintDigit('')
       };
    }
 
@@ -94,7 +94,10 @@ const Task = ({mode}) => {
       firstSum.setValue(fieldsDefault);
       secondSum.setValue(fieldsDefault);
       thirdSum.setValue(fieldsDefault);
-      setHintInput('');
+   }
+
+   const clearThirdFields = () => {
+      thirdSum.setValue(fieldsDefault);
    }
 
    const showAnswer = () => {
@@ -140,7 +143,9 @@ const Task = ({mode}) => {
                secondSum={secondSum} 
                thirdSum={thirdSum}
                mistake={mistake}
-               hintInput={hintInput} setHintInput={setHintInput}/> 
+               hintDigit={hintDigit}
+               clearSumFields={clearSumFields}
+               clearThirdFields={clearThirdFields}/> 
             : (
             <div className="task">
                <div className="task__top">

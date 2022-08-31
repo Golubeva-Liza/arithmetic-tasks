@@ -33,10 +33,13 @@
    &__hint{
       width: 38px;
       height: 38px;
+      border: 2px solid $color-light;
       position: absolute;
       top: 0;
+
+      font-family: "Inter";
       font-size: 22px;
-      line-height: 38px;
+      line-height: 36px;
       padding-left: 10px;
       &:focus {
          outline: none;

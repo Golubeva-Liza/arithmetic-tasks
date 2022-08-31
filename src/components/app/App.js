@@ -1,5 +1,5 @@
 import './App.scss';
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Radio from '../radio/Radio';
 import Checkboxes from '../checkboxes/Checkboxes';
 import Task from '../task/Task';
@@ -7,6 +7,30 @@ import Task from '../task/Task';
 function App() {
 
    const [modeRadio, setModeRadio] = useState('addition');
+   const [hintDigit, setHintDigit] = useState('');//в режиме умножения
+
+   const keyHandler = useCallback((e) => {
+      if ( e.shiftKey === true && e.code !== 'ShiftLeft' && e.code !== 'ShiftRight' && e.code.includes("Digit")) {
+
+         //у необходимых цифр код будет Digit0, Digit1, Digit2 и тп
+         console.log(`Key pressed: ${e.code[e.code.length - 1]}`);
+         setHintDigit(e.code[e.code.length - 1]);
+      }
+   }, [modeRadio])
+
+   useEffect(() => {
+
+      if (modeRadio == 'multiplication'){
+         document.addEventListener('keydown', keyHandler);
+      } else {
+         document.removeEventListener('keydown', keyHandler);
+         setHintDigit('');
+      }
+      
+      return function () {
+         document.removeEventListener('keydown', keyHandler);
+      }
+   }, [modeRadio])
 
    return (
       <div className="app">
@@ -23,7 +47,7 @@ function App() {
                <Radio name="mode" value="multiplication" radio={modeRadio} setRadio={setModeRadio}/>
             </div>
 
-            <Task mode={modeRadio}/>
+            <Task mode={modeRadio} hintDigit={hintDigit} setHintDigit={setHintDigit}/>
          </section>
       </div>
    );
