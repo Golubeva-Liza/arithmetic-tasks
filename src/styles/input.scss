@@ -1,0 +1,19 @@
+@import "./variables.scss";
+
+.input{
+   width: 75px;
+   height: 75px;
+   background: #ffffff;
+   border: 2px solid $color-light;
+
+   font-family: "Inter";
+   font-weight: 600;
+   font-size: 48px;
+   line-height: 75px;
+   padding-left: 22px;
+   color: $color-black;
+
+   &:disabled{
+      border: 2px solid $color-disabled;
+   }
+}

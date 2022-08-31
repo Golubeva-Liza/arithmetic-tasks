@@ -1,0 +1,50 @@
+@import "../../styles/variables.scss";
+
+.task_multiply {
+   .task__numbers {
+      grid-template-rows: 75px 75px;
+
+      input[type="text"] {
+         &:nth-child(7n+7){
+            border-right: 2px solid $color-light;
+            &:focus {
+               outline: none;
+               border: 2px solid $color-main;
+            }
+         }
+         &:nth-child(8), &:nth-child(15) {
+            border-bottom: 2px solid $color-light;
+            border-right: none;
+            &:disabled{
+               border-bottom: 2px solid $color-disabled;
+            }
+         }
+      }
+   }
+   .task__answer {
+      grid-template-rows: 75px;
+   }
+   .task__sign {
+      margin: 0 24px 0 0;
+   }
+
+   &__hint{
+      width: 38px;
+      height: 38px;
+      position: absolute;
+      top: 0;
+      font-size: 22px;
+      line-height: 38px;
+      padding-left: 10px;
+      &:focus {
+         outline: none;
+         border: 2px solid $color-main;
+      }
+   }
+   &__top{
+      position: relative;
+      height: 150px;
+      display: flex;
+      align-items: center;
+   }
+}

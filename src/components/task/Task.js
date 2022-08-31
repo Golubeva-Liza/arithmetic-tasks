@@ -1,12 +1,14 @@
 import './task.scss';
 import { useState, useMemo, useEffect } from 'react';
-import Checkboxes from '../checkboxes/Checkboxes';
 import { useInput } from '../../hooks/useInput';
+import useMessage from '../../hooks/useMessage';
+import {createNumArr, createRandomNum} from '../../lib/getNums';
+import {fieldsDefault, arithOperations} from '../../settings';
+
 import Inputs from '../input/Input';
 import Button from '../button/Button';
-import {Right, Wrong, Arrow} from '../../resources';
-import {createNumArr, createRandomNum} from '../../hooks/functions';
-import {fieldsDefault} from '../../settings';
+import Checkboxes from '../checkboxes/Checkboxes';
+import MultiplyTask from '../multiplyTask/MultiplyTask';
 
 
 const Task = ({mode}) => {
@@ -15,14 +17,14 @@ const Task = ({mode}) => {
          resultNum = useInput(fieldsDefault);
 
    const [mistake, setMistake] = useState([]);
-
-   //0 - нет сообщения, 1 - правильно, 2 - неправильно, 3 - некорректно введены числа
-   const [messageCode, setMessageCode] = useState(0);
+   const {messageCode, setMessageCode, message} = useMessage();
 
    //чекбоксы для отметок
    const [checked, setChecked] = useState([]);
 
+
    useEffect(() => cleanFields(), [mode])
+
 
    const checkAnswer = () => {
       setMistake([]);
@@ -33,11 +35,14 @@ const Task = ({mode}) => {
 
       // console.log(first, second, result);
 
-      if (mode == 'Сложение'){
+      if (mode == 'addition'){
          first + second === result ? setMessageCode(1) : setMessageCode(2);
 
-      } else if (mode == 'Вычитание'){
+      } else if (mode == 'subtraction'){
          first - second === result ? setMessageCode(1) : setMessageCode(2);
+
+      } else if (mode == 'multiplication'){
+         first * second === result ? setMessageCode(1) : setMessageCode(2);
       }
    }
 
@@ -48,14 +53,15 @@ const Task = ({mode}) => {
       const first = createRandomNum(10, 1000);
       let second;
 
-      if (mode == 'Сложение'){
+      if (mode == 'addition'){
          second = createRandomNum(10, 1000);
 
-      } else if (mode == 'Вычитание'){
+      } else if (mode == 'subtraction'){
          second = createRandomNum(10, first - 1);
-      }
 
-      // console.log(first, second);
+      } else if (mode == 'multiplication'){
+         second = createRandomNum(10, 100);
+      }
 
       firstNum.setValue(createNumArr(first));
       secondNum.setValue(createNumArr(second));
@@ -75,11 +81,14 @@ const Task = ({mode}) => {
    const showAnswer = () => {
       let correctRes;
 
-      if (mode == 'Сложение'){
+      if (mode == 'addition'){
          correctRes = createNumArr(+firstNum.value.join('') + +secondNum.value.join(''));
 
-      } else if (mode == 'Вычитание'){
+      } else if (mode == 'subtraction'){
          correctRes = createNumArr(+firstNum.value.join('') - +secondNum.value.join(''));
+
+      } else if (mode == 'multiplication'){
+         correctRes = createNumArr(+firstNum.value.join('') * +secondNum.value.join(''));
       }
 
       const inputNum = [];
@@ -96,27 +105,6 @@ const Task = ({mode}) => {
       setMistake([]);
    }
 
-   const message = useMemo(() => {
-      switch(messageCode) {
-         case 0:
-            return;
-         case 1:
-            return (
-               <div className="main__message main__message_right">
-                  <Right/>
-                  правильно
-               </div>
-            )
-         case 2: return (
-            <div className="main__message main__message_wrong">
-               <Wrong/>
-               неправильно
-            </div>
-         )
-         default: return;
-      }
-   }, [messageCode])
-
 
    return (
       <div className="main">
@@ -124,28 +112,34 @@ const Task = ({mode}) => {
             <Button light onClick={randomNums}>сгенерировать пример</Button>
          </div>
 
+         {mode == 'multiplication' ?   
+            <MultiplyTask 
+               firstNum={firstNum} 
+               secondNum={secondNum} 
+               resultNum={resultNum}
+               mistake={mistake}/> 
+            : (
+            <div className="task">
+               <div className="task__top">
+                  <div className="task__sign">{arithOperations[mode].sign}</div>
+                  <div className="task__numbers">
+                     <Checkboxes 
+                        className={`task__checkboxes ${mode == 'subtraction' ? 'task__checkboxes_minus' : ''}`}
+                        checked={checked} setChecked={setChecked}
+                     />                        
 
-         <div className="task">
-            <div className="task__top">
-               <div className="task__sign">{mode == 'Сложение' ? '+' : '-'}</div>
-               <div className="task__numbers">
-                  <Checkboxes 
-                     className={`task__checkboxes ${mode == 'Вычитание' ? 'task__checkboxes_minus' : ''}`}
-                     checked={checked} setChecked={setChecked}
-                  />                        
+                     <Inputs state={firstNum} count={7} />
+                     <Inputs state={secondNum} count={7} />
+                  </div>
+               </div>
 
-                  <Inputs state={firstNum} count={7} />
-                  <Inputs state={secondNum} count={7} />
+               <hr className="task__line"/>
+
+               <div className="task__answer task__numbers">
+                  <Inputs state={resultNum} count={7} mistake={mistake}/>
                </div>
             </div>
-
-            <hr className="task__line"/>
-
-            <div className="task__answer task__numbers">
-               <Inputs state={resultNum} count={7} mistake={mistake}/>
-            </div>
-         </div>
-
+         )}
 
          <div className="main__verify">
             {message}

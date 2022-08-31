@@ -1,9 +1,9 @@
 import './checkboxes.scss';
 import { useState, useMemo, useRef } from 'react';
+import movingArrows from '../../lib/movingArrows';
 
 const Checkboxes = ({className, checked, setChecked}) => {
 
-   // const [checked, setChecked] = useState([]);
    const checkValues = useMemo(() => ([7, 6, 5, 4, 3, 2]), []);
    const itemRefs = useRef([]);
 
@@ -20,29 +20,8 @@ const Checkboxes = ({className, checked, setChecked}) => {
       }
       
       setChecked(newChecked);
-      // console.log(newChecked);
    }
-
-   const onKeyDown = (e, id) => {
-
-      if (e.code == 'ArrowDown') {
-         if (id === 0){ return; }
-         itemRefs.current[id - 1].focus();
-
-      } else if (e.code == 'ArrowUp'){
-         if (id === checkValues.length - 1){ return; }
-         itemRefs.current[id + 1].focus();
-      }
-      console.log(e.code);
-   }
-
-//tabIndex="0" onFocus={(e) => onFocus(e)}
-// if (id === checkValues.length - 1){ 
-//    e.target.tabIndex = -1; 
-// }
-//  else if (e.code == 'Tab'){
-//    itemRefs.current[checkValues.length - 1].tabIndex = 0;
-// }
+   
 
    return (
       <div className={className}>
@@ -57,7 +36,7 @@ const Checkboxes = ({className, checked, setChecked}) => {
                      checked={checked.indexOf(el) === -1 ? false : true}
                      onChange={() => changeCheckbox(el)}
                      tabIndex={id == checkValues.length - 1 ? 0 : -1}
-                     onKeyDown={(e) => onKeyDown(e, id)}
+                     onKeyDown={(e) => movingArrows(e, id, itemRefs, checkValues.length)}
                   />
                   <span className="checkbox__check"></span>
                </label>

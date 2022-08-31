@@ -31,12 +31,3 @@ export function useInput(initialValue) {
 
    return {value, setValue, onChange, removeValue};
 }
-
-
-// const onChange = e => {
-//    setValue(e.target.value);
-// }
-
-// const removeValue = e => {
-//    setValue(initialValue);
-// }

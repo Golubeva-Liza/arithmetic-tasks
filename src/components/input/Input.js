@@ -1,22 +1,11 @@
-import { useMemo, useRef } from 'react';
 
-const Inputs = ({state, count, mistake}) => {
+import { useMemo, useRef } from 'react';
+import movingArrows from '../../lib/movingArrows';
+
+
+const Inputs = ({state, count, mistake, disabled}) => {
 
    const itemRefs = useRef([]);
-
-   const onKeyDown = (e, id) => {
-      // e.preventDefault();
-
-      if (e.code == 'ArrowDown') {
-         if (id === 0){ return; }
-         itemRefs.current[id - 1].focus();
-
-      } else if (e.code == 'ArrowUp'){
-         if (id === count - 1){ return; }
-         itemRefs.current[id + 1].focus();
-      }
-      // console.log(e.code);
-   }
 
    const elems = useMemo(() => {
 
@@ -25,22 +14,22 @@ const Inputs = ({state, count, mistake}) => {
          arr.push(
             <input 
                ref={el => itemRefs.current[i] = el}
-               className={ mistake && mistake.length > 0 && mistake.find(el => el == i) ? 'wrong' : '' }
+               className={ mistake && mistake.length > 0 && mistake.find(el => el == i) ? 'input wrong' : 'input' }
                key={i}
                type="text" 
+               disabled={disabled && i < disabled}
                value={state.value[i]} 
                onChange={(e) => state.onChange(e, i)}
                tabIndex={i == count - 1 ? 0 : -1}
-               onKeyDown={(e) => onKeyDown(e, i)}
+               onKeyDown={(e) => movingArrows(e, i, itemRefs, count)}
             />
          )
       }
       return arr;
+      
    }, [state.value, mistake])
 
-   return (
-      elems
-   );
+   return elems;
 };
 
 export default Inputs;

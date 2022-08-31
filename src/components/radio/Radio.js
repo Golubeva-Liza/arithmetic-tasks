@@ -1,6 +1,7 @@
 import './radio.scss';
+import { arithOperations } from '../../settings';
 
-const Radio = ({name, text, radio, setRadio}) => {
+const Radio = ({name, value, radio, setRadio}) => {
 
    return (
       <label className="radio mode__radio">
@@ -8,14 +9,17 @@ const Radio = ({name, text, radio, setRadio}) => {
             className="radio__input"
             type="radio" 
             name={name}
-            value={text}
-            checked={radio === text ? true : false}
-            onChange={() => setRadio(text)}
+            value={value}
+            checked={radio === value ? true : false}
+            onChange={() => setRadio(value)}
          />
          <span className="radio__check"></span>
-         {text}
+         {arithOperations[value].translate}
       </label>
    );
 };
 
 export default Radio;
+
+
+//arithOperations.find(item => item.translate === text.toLowerCase()).name
