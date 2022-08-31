@@ -1,6 +1,7 @@
 import "./multiplyTask.scss";
-import { useState, useRef } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useInput } from '../../hooks/useInput';
+import SumFields from "./SumFields";
 
 import {fieldsDefault, arithOperations} from '../../settings';
 import Inputs from "../input/Input";
@@ -8,14 +9,28 @@ import Button from "../button/Button";
 import Checkboxes from "../checkboxes/Checkboxes";
 
 
-const MultiplyTask = ({ firstNum, secondNum, resultNum, mistake }) => {
+const MultiplyTask = ({ 
+      firstNum, 
+      secondNum, 
+      resultNum, 
+      mistake, 
+      firstSum, 
+      secondSum, 
+      thirdSum,
+      hintInput, setHintInput
+   }) => {
 
-   const [hintInput, setHintInput] = useState('');
+   
+   const [strokeSumNum, setStrokeSumNum] = useState(1);
 
-   //числа, которые являются вычислительными в процессе умножения
-   const firstSum = useInput(fieldsDefault),
-         secondSum = useInput(fieldsDefault),
-         thirdSum = useInput(fieldsDefault);
+   useEffect(() => {
+      //Math.min(+firstNum.value.join(''), +secondNum.value.join(''));
+      const digitCount = String(+secondNum.value.join('')).length;
+
+      if (digitCount !== strokeSumNum){
+         setStrokeSumNum(digitCount);
+      }
+   }, [firstNum.value, secondNum.value])
 
    return (
       <div className="task task_multiply">
@@ -38,18 +53,12 @@ const MultiplyTask = ({ firstNum, secondNum, resultNum, mistake }) => {
             </div>
          </div>
 
-         <hr className="task__line" />
-
-         <div className="task__top">
-            <div className="task__sign">+</div>
-            
-            <div className="task__numbers">
-               <Inputs state={firstSum} count={7}/>
-               <Inputs state={secondSum} count={7}/>
-               <Inputs state={secondSum} count={7}/>
-            </div>
-         </div>
-
+         <SumFields 
+            firstSum={firstSum} 
+            secondSum={secondSum}
+            thirdSum={thirdSum}
+            strokeCount={strokeSumNum}
+         />
 
 
          <hr className="task__line" />

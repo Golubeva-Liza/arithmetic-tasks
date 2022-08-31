@@ -16,14 +16,20 @@ const Task = ({mode}) => {
          secondNum = useInput(fieldsDefault),
          resultNum = useInput(fieldsDefault);
 
-   const [mistake, setMistake] = useState([]);
-   const {messageCode, setMessageCode, message} = useMessage();
+   //числа, которые являются вычислительными в процессе умножения
+   const firstSum = useInput(fieldsDefault),
+         secondSum = useInput(fieldsDefault),
+         thirdSum = useInput(fieldsDefault);
+   const [hintInput, setHintInput] = useState('');//в режиме умножения
 
    //чекбоксы для отметок
    const [checked, setChecked] = useState([]);
+   const [mistake, setMistake] = useState([]);
+   const {messageCode, setMessageCode, message} = useMessage();
 
 
-   useEffect(() => cleanFields(), [mode])
+
+   useEffect(() => clearFields(), [mode])
 
 
    const checkAnswer = () => {
@@ -48,9 +54,9 @@ const Task = ({mode}) => {
 
    const randomNums = () => {
 
-      cleanFields();
+      clearFields();
 
-      const first = createRandomNum(10, 1000);
+      let first = createRandomNum(10, 1000);
       let second;
 
       if (mode == 'addition'){
@@ -60,7 +66,9 @@ const Task = ({mode}) => {
          second = createRandomNum(10, first - 1);
 
       } else if (mode == 'multiplication'){
-         second = createRandomNum(10, 100);
+         clearSumFields();
+         first = createRandomNum(2, 150);
+         second = createRandomNum(2, 150);
       }
 
       firstNum.setValue(createNumArr(first));
@@ -69,13 +77,24 @@ const Task = ({mode}) => {
       //числа максимум четырехзначные (настройка - сколько цифр в числах максимум или конкретно)
    }
 
-   const cleanFields = () => {
+   const clearFields = () => {
       firstNum.setValue(fieldsDefault);
       secondNum.setValue(fieldsDefault);
       resultNum.setValue(fieldsDefault);
       setChecked([]);
       setMessageCode(0);
       setMistake([]);
+
+      if (mode == 'multiplication'){
+         setHintInput('')
+      };
+   }
+
+   const clearSumFields = () => {
+      firstSum.setValue(fieldsDefault);
+      secondSum.setValue(fieldsDefault);
+      thirdSum.setValue(fieldsDefault);
+      setHintInput('');
    }
 
    const showAnswer = () => {
@@ -117,7 +136,11 @@ const Task = ({mode}) => {
                firstNum={firstNum} 
                secondNum={secondNum} 
                resultNum={resultNum}
-               mistake={mistake}/> 
+               firstSum={firstSum} 
+               secondSum={secondSum} 
+               thirdSum={thirdSum}
+               mistake={mistake}
+               hintInput={hintInput} setHintInput={setHintInput}/> 
             : (
             <div className="task">
                <div className="task__top">
@@ -154,7 +177,7 @@ const Task = ({mode}) => {
             
             <Button
                disabled={firstNum.value.join('') == '' || secondNum.value.join('') == '' || resultNum.value.join('') === ''}
-               onClick={messageCode == 1 ? cleanFields : checkAnswer}>
+               onClick={messageCode == 1 ? clearFields : checkAnswer}>
                {messageCode == 1 ? 'очистить поля' : 'проверка решения'}
             </Button>
             

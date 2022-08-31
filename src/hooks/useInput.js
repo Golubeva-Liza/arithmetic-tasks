@@ -17,6 +17,8 @@ export function useInput(initialValue) {
       //если цифра уже есть и вводится новая, то новое значение формируется из "новой" цифры, появившейся в числе, неважно, ввели его в начале или в конце
       if (thisValue.length > 1 && thisValue[0] == value[num]) {
          newValue = thisValue[1];
+      } else if (!thisValue){
+         newValue = '';
       } else {
          newValue = thisValue[0];
       }

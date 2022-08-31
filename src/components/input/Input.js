@@ -8,7 +8,7 @@ const Inputs = ({state, count, mistake, disabled}) => {
    const itemRefs = useRef([]);
 
    const elems = useMemo(() => {
-
+      
       const arr = [];
       for (let i = 0; i <= count - 1; i++){
          arr.push(
