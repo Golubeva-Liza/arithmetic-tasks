@@ -2,8 +2,11 @@ import './task.scss';
 import { useState, useMemo, useEffect } from 'react';
 import { useInput } from '../../hooks/useInput';
 import useMessage from '../../hooks/useMessage';
+import { useCorrectAnswer } from '../../hooks/useCorrectAnswer';
+
 import {createNumArr, createRandomNum} from '../../lib/getNums';
 import {fieldsDefault, arithOperations} from '../../settings';
+import clearNumFields from '../../lib/clearNumFields';
 
 import Inputs from '../input/Input';
 import Button from '../button/Button';
@@ -23,13 +26,12 @@ const Task = ({mode, hintDigit, setHintDigit}) => {
 
    //чекбоксы для отметок
    const [checked, setChecked] = useState([]);
-   const [mistake, setMistake] = useState([]);
+
    const {messageCode, setMessageCode, message} = useMessage();
+   const {showAnswer, hideAnswer, mistake, setMistake} = useCorrectAnswer();
 
 
-
-   useEffect(() => clearFields(), [mode])
-
+   useEffect(() => clearAllFields(), [mode])
 
    const checkAnswer = () => {
       setMistake([]);
@@ -37,8 +39,6 @@ const Task = ({mode, hintDigit, setHintDigit}) => {
       const first = +firstNum.value.join(''),
             second = +secondNum.value.join(''),
             result = +resultNum.value.join('');
-
-      // console.log(first, second, result);
 
       if (mode == 'addition'){
          first + second === result ? setMessageCode(1) : setMessageCode(2);
@@ -51,9 +51,9 @@ const Task = ({mode, hintDigit, setHintDigit}) => {
       }
    }
 
-   const randomNums = () => {
 
-      clearFields();
+   const randomNums = () => {
+      clearAllFields();
 
       let first = createRandomNum(10, 1000);
       let second;
@@ -65,7 +65,7 @@ const Task = ({mode, hintDigit, setHintDigit}) => {
          second = createRandomNum(10, first - 1);
 
       } else if (mode == 'multiplication'){
-         clearSumFields();
+         clearNumFields(firstSum, secondSum, thirdSum);
          setHintDigit('');
          first = createRandomNum(2, 150);
          second = createRandomNum(2, 150);
@@ -73,60 +73,19 @@ const Task = ({mode, hintDigit, setHintDigit}) => {
 
       firstNum.setValue(createNumArr(first));
       secondNum.setValue(createNumArr(second));
-
-      //числа максимум четырехзначные (настройка - сколько цифр в числах максимум или конкретно)
+      //настройка - сколько цифр в числах максимум
    }
 
-   const clearFields = () => {
-      firstNum.setValue(fieldsDefault);
-      secondNum.setValue(fieldsDefault);
-      resultNum.setValue(fieldsDefault);
+   const clearAllFields = () => {
+      clearNumFields(firstNum, secondNum, resultNum);
       setChecked([]);
       setMessageCode(0);
       setMistake([]);
 
       if (mode == 'multiplication'){
-         setHintDigit('')
+         setHintDigit('');
       };
    }
-
-   const clearSumFields = () => {
-      firstSum.setValue(fieldsDefault);
-      secondSum.setValue(fieldsDefault);
-      thirdSum.setValue(fieldsDefault);
-   }
-
-   const clearThirdFields = () => {
-      thirdSum.setValue(fieldsDefault);
-   }
-
-   const showAnswer = () => {
-      let correctRes;
-
-      if (mode == 'addition'){
-         correctRes = createNumArr(+firstNum.value.join('') + +secondNum.value.join(''));
-
-      } else if (mode == 'subtraction'){
-         correctRes = createNumArr(+firstNum.value.join('') - +secondNum.value.join(''));
-
-      } else if (mode == 'multiplication'){
-         correctRes = createNumArr(+firstNum.value.join('') * +secondNum.value.join(''));
-      }
-
-      const inputNum = [];
-
-      correctRes.forEach((el, id) => {
-         if (resultNum.value[id] !== el){
-            inputNum.push(id);
-         };
-      })
-      setMistake(inputNum);
-   }
-
-   const hideAnswer = () => {
-      setMistake([]);
-   }
-
 
    return (
       <div className="main">
@@ -144,8 +103,7 @@ const Task = ({mode, hintDigit, setHintDigit}) => {
                thirdSum={thirdSum}
                mistake={mistake}
                hintDigit={hintDigit}
-               clearSumFields={clearSumFields}
-               clearThirdFields={clearThirdFields}/> 
+               /> 
             : (
             <div className="task">
                <div className="task__top">
@@ -175,14 +133,17 @@ const Task = ({mode, hintDigit, setHintDigit}) => {
             {messageCode == 2 ? (
                <Button light 
                   className="main__show-answer"
-                  onClick={mistake.length ? hideAnswer : showAnswer}>
+                  onClick={
+                     mistake.length ? hideAnswer : 
+                     () => showAnswer(mode, firstNum.value, secondNum.value, resultNum.value)
+                  }>
                   {mistake.length ? 'спрятать подсказку' : 'показать подсказку'}
                </Button>
             ) : null}
             
             <Button
                disabled={firstNum.value.join('') == '' || secondNum.value.join('') == '' || resultNum.value.join('') === ''}
-               onClick={messageCode == 1 ? clearFields : checkAnswer}>
+               onClick={messageCode == 1 ? clearAllFields : checkAnswer}>
                {messageCode == 1 ? 'очистить поля' : 'проверка решения'}
             </Button>
             

@@ -1,12 +1,10 @@
 import "./multiplyTask.scss";
-import { useState, useMemo, useEffect } from 'react';
-import { useInput } from '../../hooks/useInput';
+import { useState, useEffect } from 'react';
 import SumFields from "./SumFields";
-
-import {fieldsDefault, arithOperations} from '../../settings';
 import Inputs from "../input/Input";
-import Button from "../button/Button";
-import Checkboxes from "../checkboxes/Checkboxes";
+
+import {arithOperations} from '../../settings';
+import clearNumFields from '../../lib/clearNumFields';
 
 
 const MultiplyTask = ({ 
@@ -17,11 +15,10 @@ const MultiplyTask = ({
       firstSum, 
       secondSum, 
       thirdSum,
-      hintDigit,
-      clearSumFields, clearThirdFields
+      hintDigit
    }) => {
 
-   
+   //количество строк для вычисления промежуточных значений, которые суммируются для ответа. При значении 1 ничего не отображается.
    const [strokeSumNum, setStrokeSumNum] = useState(1);
 
    useEffect(() => {
@@ -29,14 +26,10 @@ const MultiplyTask = ({
       const digitCount = String(+secondNum.value.join('')).length;
       
       if (digitCount == 1){
-         clearSumFields();
-      }
-
-      if (digitCount == 2){
-         clearThirdFields();
-      }
-
-      if (digitCount !== strokeSumNum){
+         clearNumFields(firstSum, secondSum, thirdSum);
+      } else if (digitCount == 2){
+         clearNumFields(thirdSum);
+      }else if (digitCount !== strokeSumNum){
          setStrokeSumNum(digitCount);
       }
    }, [firstNum.value, secondNum.value])
@@ -63,7 +56,6 @@ const MultiplyTask = ({
             thirdSum={thirdSum}
             strokeCount={strokeSumNum}
          />
-
 
          <hr className="task__line" />
 
