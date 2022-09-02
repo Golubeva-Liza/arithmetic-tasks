@@ -33,7 +33,6 @@ const Task = ({mode, hintDigit, setHintDigit}) => {
 
 
    useEffect(() => {
-      console.log(mode);
       //предотвращение запуска useEffect при первом рендере
       if (firstUpdate.current) {
          firstUpdate.current = false;
@@ -43,9 +42,17 @@ const Task = ({mode, hintDigit, setHintDigit}) => {
    }, [mode])
 
 
+   useEffect(() => {
+      if (messageCode !== 0 || mistake.length){
+         setMessageCode(0);
+         setMistake([]);
+      }
+   }, [firstNum.value, secondNum.value])
+
+
    const checkAnswer = () => {
       setMistake([]);
-
+      
       const first = +firstNum.value.join(''),
             second = +secondNum.value.join(''),
             result = +resultNum.value.join('');
@@ -143,10 +150,7 @@ const Task = ({mode, hintDigit, setHintDigit}) => {
             {messageCode == 2 ? (
                <Button light 
                   className="main__show-answer"
-                  onClick={
-                     mistake.length ? hideAnswer : 
-                     () => showAnswer(mode, firstNum.value, secondNum.value, resultNum.value)
-                  }>
+                  onClick={mistake.length ? hideAnswer : () => showAnswer(mode, firstNum.value, secondNum.value, resultNum.value)}>
                   {mistake.length ? 'спрятать подсказку' : 'показать подсказку'}
                </Button>
             ) : null}
@@ -163,3 +167,4 @@ const Task = ({mode, hintDigit, setHintDigit}) => {
 };
 
 export default Task;
+//mistake.length ? hideAnswer : () => showAnswer(mode, firstNum.value, secondNum.value, resultNum.value)

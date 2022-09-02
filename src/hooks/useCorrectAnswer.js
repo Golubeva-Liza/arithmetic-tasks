@@ -8,20 +8,24 @@ export function useCorrectAnswer() {
    const showAnswer = (mode, firstValue, secondValue, resultValue) => {
       let correctRes;
 
+      const first = +firstValue.join(''),
+            second = +secondValue.join(''),
+            result = resultValue;
+
       if (mode == 'addition'){
-         correctRes = createNumArr(+firstValue.join('') + +secondValue.join(''));
+         correctRes = createNumArr(first + second);
 
       } else if (mode == 'subtraction'){
-         correctRes = createNumArr(+firstValue.join('') - +secondValue.join(''));
+         correctRes = createNumArr(first - second);
 
       } else if (mode == 'multiplication'){
-         correctRes = createNumArr(+firstValue.value.join('') * +secondValue.join(''));
+         correctRes = createNumArr(first * second);
       }
 
       const inputNum = [];
 
       correctRes.forEach((el, id) => {
-         if (resultValue[id] !== el){
+         if (result[id] !== el){
             inputNum.push(id);
          };
       })
