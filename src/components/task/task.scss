@@ -39,13 +39,14 @@
    &__numbers {
       display: grid;
       grid-template-columns: repeat(7, 75px);
-      grid-template-rows: 36px 75px 75px;
+      grid-template-rows: 40px 75px 75px;
 
       input[type="text"] {
          border-right: none;
 
          &:nth-child(8),
-         &:nth-child(15) {
+         &:nth-child(15),
+         &:nth-child(22) {
             border-right: 2px solid $color-light;
          }
 
@@ -66,7 +67,7 @@
 
       //убираем нижнюю границу у первого ряда цифры
       input {
-         &:nth-child(-n + 8) {
+         &:nth-last-child(n + 8) {
             border-bottom: none;
          }
       }

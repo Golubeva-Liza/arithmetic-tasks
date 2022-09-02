@@ -1,5 +1,5 @@
 import './task.scss';
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useInput } from '../../hooks/useInput';
 import useMessage from '../../hooks/useMessage';
 import { useCorrectAnswer } from '../../hooks/useCorrectAnswer';
@@ -29,9 +29,19 @@ const Task = ({mode, hintDigit, setHintDigit}) => {
 
    const {messageCode, setMessageCode, message} = useMessage();
    const {showAnswer, hideAnswer, mistake, setMistake} = useCorrectAnswer();
+   const firstUpdate = useRef(true);
 
 
-   useEffect(() => clearAllFields(), [mode])
+   useEffect(() => {
+      console.log(mode);
+      //предотвращение запуска useEffect при первом рендере
+      if (firstUpdate.current) {
+         firstUpdate.current = false;
+         return;
+      }
+      clearAllFields();
+   }, [mode])
+
 
    const checkAnswer = () => {
       setMistake([]);

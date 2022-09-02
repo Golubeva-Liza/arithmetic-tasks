@@ -11,13 +11,13 @@ function App() {
 
    const keyHandler = useCallback((e) => {
       if ( e.shiftKey === true && e.code !== 'ShiftLeft' && e.code !== 'ShiftRight' && e.code.includes("Digit")) {
-
          //у необходимых цифр код будет Digit0, Digit1, Digit2 и тп
-         console.log(`Key pressed: ${e.code[e.code.length - 1]}`);
+         // console.log(`Key pressed: ${e.code[e.code.length - 1]}`);
          setHintDigit(e.code[e.code.length - 1]);
       }
    }, [modeRadio])
 
+   
    useEffect(() => {
 
       if (modeRadio == 'multiplication'){
@@ -32,6 +32,7 @@ function App() {
       }
    }, [modeRadio])
 
+   
    return (
       <div className="app">
          <header className="app__header">
