@@ -1,0 +1,49 @@
+@import "../../styles/variables.scss";
+
+.main{
+   transform: translateX(30px);
+   &__change-task, &__verify{
+      display: flex;
+      justify-content: flex-end;
+   }
+   &__change-task{
+      padding-right: 30px;
+      margin-bottom: 12px;
+   }
+   &__btn{
+      margin-right: 24px;
+   }
+   &__verify{
+      margin-top: 48px;
+      align-items: flex-start;
+   }
+   &__message{
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 26px;
+      display: flex;
+      align-items: center;
+      margin-right: 32px;
+      svg{
+         width: 32px;
+         height: 32px;
+      }
+      &_right{
+         color: $color-green;
+      }
+      &_wrong{
+         color: $color-red;
+      }
+   }
+   &__show-answer{
+      margin-right: 12px;
+   }
+   &__screen{
+      padding: 0 30px 30px 30px;
+      background: #ffffff;
+   }
+   &__dowload{
+      margin-right: 30px;
+   }
+}
+

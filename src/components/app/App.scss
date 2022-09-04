@@ -13,7 +13,7 @@
       text-align: center;
    }
    &__container{
-      width: 808px;
+      width: 850px;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
@@ -30,39 +30,3 @@
       margin-bottom: 20px;
    }
 }
-
-.main{
-   &__change-task, &__verify{
-      display: flex;
-      justify-content: flex-end;
-   }
-   &__btn{
-      margin-right: 24px;
-   }
-   &__verify{
-      margin-top: 48px;
-      align-items: flex-start;
-   }
-   &__message{
-      font-weight: 500;
-      font-size: 20px;
-      line-height: 26px;
-      display: flex;
-      align-items: center;
-      margin-right: 32px;
-      svg{
-         width: 32px;
-         height: 32px;
-      }
-      &_right{
-         color: $color-green;
-      }
-      &_wrong{
-         color: $color-red;
-      }
-   }
-   &__show-answer{
-      margin-right: 12px;
-   }
-}
-

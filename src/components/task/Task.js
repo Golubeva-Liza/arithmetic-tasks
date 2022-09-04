@@ -1,3 +1,4 @@
+import './main.scss';
 import './task.scss';
 import { useState, useRef, useEffect } from 'react';
 import { useInput } from '../../hooks/useInput';
@@ -12,6 +13,7 @@ import Inputs from '../input/Input';
 import Button from '../button/Button';
 import Checkboxes from '../checkboxes/Checkboxes';
 import MultiplyTask from '../multiplyTask/MultiplyTask';
+import DowloadScreen from '../dowloadScreen/DowloadScreen';
 
 
 const Task = ({mode, hintDigit, setHintDigit}) => {
@@ -30,6 +32,7 @@ const Task = ({mode, hintDigit, setHintDigit}) => {
    const {messageCode, setMessageCode, message} = useMessage();
    const {showAnswer, hideAnswer, mistake, setMistake} = useCorrectAnswer();
    const firstUpdate = useRef(true);
+   const screenShot = useRef(null);
 
 
    useEffect(() => {
@@ -105,63 +108,68 @@ const Task = ({mode, hintDigit, setHintDigit}) => {
    }
 
    return (
-      <div className="main">
+      <div className="main" >
          <div className="main__change-task">
+            <DowloadScreen screenRef={screenShot}/>
             <Button light onClick={randomNums}>сгенерировать пример</Button>
          </div>
 
-         {mode == 'multiplication' ?   
-            <MultiplyTask 
-               firstNum={firstNum} 
-               secondNum={secondNum} 
-               resultNum={resultNum}
-               firstSum={firstSum} 
-               secondSum={secondSum} 
-               thirdSum={thirdSum}
-               mistake={mistake}
-               hintDigit={hintDigit}
-               /> 
-            : (
-            <div className="task">
-               <div className="task__top">
-                  <div className="task__sign">{arithOperations[mode].sign}</div>
-                  <div className="task__numbers">
-                     <Checkboxes 
-                        className={`task__checkboxes ${mode == 'subtraction' ? 'task__checkboxes_minus' : ''}`}
-                        checked={checked} setChecked={setChecked}
-                     />                        
+         <div className="main__screen" ref={screenShot}>
+            {mode == 'multiplication' ?   
+               <MultiplyTask 
+                  firstNum={firstNum} 
+                  secondNum={secondNum} 
+                  resultNum={resultNum}
+                  firstSum={firstSum} 
+                  secondSum={secondSum} 
+                  thirdSum={thirdSum}
+                  mistake={mistake}
+                  hintDigit={hintDigit}
+                  /> 
+               : (
+               <div className="task">
+                  <div className="task__top">
+                     <div className="task__sign">{arithOperations[mode].sign}</div>
+                     <div className="task__numbers">
+                        <Checkboxes 
+                           className={`task__checkboxes ${mode == 'subtraction' ? 'task__checkboxes_minus' : ''}`}
+                           checked={checked} setChecked={setChecked}
+                        />                        
 
-                     <Inputs state={firstNum} count={7} />
-                     <Inputs state={secondNum} count={7} />
+                        <Inputs state={firstNum} count={7} />
+                        <Inputs state={secondNum} count={7} />
+                     </div>
+                  </div>
+
+                  <hr className="task__line"/>
+
+                  <div className="task__answer task__numbers">
+                     <Inputs state={resultNum} count={7} mistake={mistake}/>
                   </div>
                </div>
+            )}
 
-               <hr className="task__line"/>
+            <div className="main__verify">
+               {message}
 
-               <div className="task__answer task__numbers">
-                  <Inputs state={resultNum} count={7} mistake={mistake}/>
-               </div>
-            </div>
-         )}
-
-         <div className="main__verify">
-            {message}
-
-            {messageCode == 2 ? (
-               <Button light 
-                  className="main__show-answer"
-                  onClick={mistake.length ? hideAnswer : () => showAnswer(mode, firstNum.value, secondNum.value, resultNum.value)}>
-                  {mistake.length ? 'спрятать подсказку' : 'показать подсказку'}
+               {messageCode == 2 ? (
+                  <Button light 
+                     className="main__show-answer"
+                     onClick={mistake.length ? hideAnswer : () => showAnswer(mode, firstNum.value, secondNum.value, resultNum.value)}>
+                     {mistake.length ? 'спрятать подсказку' : 'показать подсказку'}
+                  </Button>
+               ) : null}
+               
+               <Button
+                  disabled={firstNum.value.join('') == '' || secondNum.value.join('') == '' || resultNum.value.join('') === ''}
+                  onClick={messageCode == 1 ? clearAllFields : checkAnswer}>
+                  {messageCode == 1 ? 'очистить поля' : 'проверка решения'}
                </Button>
-            ) : null}
-            
-            <Button
-               disabled={firstNum.value.join('') == '' || secondNum.value.join('') == '' || resultNum.value.join('') === ''}
-               onClick={messageCode == 1 ? clearAllFields : checkAnswer}>
-               {messageCode == 1 ? 'очистить поля' : 'проверка решения'}
-            </Button>
-            
+               
+            </div>
+
          </div>
+         
       </div>
    );
 };
